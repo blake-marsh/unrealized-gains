@@ -161,7 +161,8 @@ no_match = no_match[which(!(id_rssd %in% name_match$id_rssd)),]
 matches = rbindlist(list(ein_match, name_match), use.names=T, fill=T)
 matches = matches[,list(date, id_rssd, gvkey, nm_lgl, id_tax, htick, id_cusip, cusip6_crsp, cusip_cs, total_assets, tier)]
 matches = unique(matches)
-write.table(matches, "./data/y9c_cusip_matches.psv", sep='|', row.names=F)
+#write.table(matches, "./data/y9c_cusip_matches.psv", sep='|', row.names=F)
+saveRDS(matches, "./data/y9c_cusip_matches.rds")
 
 #------------------------------------------------------
 # Get all 6 digit CUSIPs from Compustat security table
@@ -229,7 +230,7 @@ any(duplicated(cusips[,list(ID_CUSIP)]))
 saveRDS(cusips, "./data/y9c_results_cusips.rds")
 
 #write.table(results, "./data/y9c_cusip_match_all_results.psv", sep="|", row.names=F, na='')
-#saveRDS(results, "./data/y9c_cusip_match_all_results.rds"
+saveRDS(results, "./data/y9c_cusip_match_all_results.rds")
 
 
 
