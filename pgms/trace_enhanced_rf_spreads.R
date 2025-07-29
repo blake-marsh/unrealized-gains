@@ -1,5 +1,7 @@
 rm(list = ls())
 
+print(paste("Job start:", Sys.time()))
+
 library(data.table)
 library(zoo)
 library(lubridate)
@@ -219,6 +221,7 @@ h15[,(c("fstub", "nstub")) := NULL]
 #df = df[which(trd_exctn_dt == as.Date('2019-01-04') & cusip_id == '46625HJZ4'),]
 #df = df[1:10000,]
 #df = df[which(zero_cpn == 1),]
+df = df[which(year(trd_exctn_dt) == 2022),]
 
 #--------------------------------------------
 # Determine the number of payments remaining
@@ -277,7 +280,7 @@ print(paste("Trade discrete YTM time:", end.time - start.time))
 df[,rf_spread := 100*100*(yield/100 - ytm_rf)]
 df[,rf_spread_discrete := 100*100*(yield/100 - ytm_rf_discrete)]
 
-## spreads with calculate yield from TRACE price
+## spreads with calculated yield from TRACE price
 df[,rf_spread_recalc := 100*100*(ytm_trade - ytm_rf)]
 df[,rf_spread_recalc_discrete := 100*100*(ytm_trade_discrete - ytm_rf_discrete)]
 
@@ -303,5 +306,4 @@ saveRDS(obs_count, "./data/trace_enhanced_observation_count.rds")
 saveRDS(df, "./data/trace_enhanced_rf_spreads.rds")
 write.table(df, "./data/trace_enhanced_rf_spreads.psv", sep="|", row.names=F, na="")
 
-
-
+print(paste("Job end:", Sys.time()))
